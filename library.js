@@ -19,7 +19,6 @@ if (typeof exports !== 'undefined') {
 
 var LibraryError = errors.define('LibraryError', -1);
 
-
 // Library Schema
 // --------
 
@@ -38,12 +37,28 @@ var SCHEMA = {
     "entry": {
       "properties": {
         "title": "string",
-        "publications": ["array", "string"], // representing current publications serialized as string
+        "publications": ["array", "publication"], // representing current publications serialized as string
         "updated_at": "date",
         "created_at": "date",
-        "creator": "string",
-        "collaborators": ["array", "string"],
+        "creator": "user",
+        "collaborators": ["array", "user"],
         "keywords": ["array", "string"]
+      }
+    },
+
+    "user": {
+      "properties": {
+        "username": "string",
+        "name": "string"
+      }
+    },
+
+    // A publication entry (for local caching)
+    "publication": {
+      "properties": {
+        "network": "network",
+        "document": "entry",
+        "creator": "user"
       }
     },
 
@@ -51,8 +66,12 @@ var SCHEMA = {
     "collection": {
       "properties": {
         "name": "string",
-        "documents": ["array", "document"]
+        "documents": ["array", "entry"] // entries
       }
+    },
+
+    "network": {
+      "parent": "collection"
     },
 
     // Article is a concrete document type
