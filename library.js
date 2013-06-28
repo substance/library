@@ -3,7 +3,6 @@
 var _,
     util,
     Data,
-    PersistentGraph,
     errors;
 
 if (typeof exports !== 'undefined') {
@@ -11,13 +10,11 @@ if (typeof exports !== 'undefined') {
   util = require('../../util/util');
   errors = require('../../util/errors');
   Data = require('../../data/data');
-  PersistentGraph = require('../../store/src/persistent_graph');
 } else {
   _ = root._;
   util = root.Substance.util;
   errors = root.Substance.errors;
   Data = root.Substance.Data;
-  PersistentGraph = root.Substance.Data.PersistentGraph;
 }
 
 var LibraryError = errors.define('LibraryError', -1);
@@ -94,27 +91,16 @@ var SCHEMA = {
   }
 };
 
-
-var Library = function(store) {
-  // Data.Graph.call(this, schema || SCHEMA);
-
-  if (store) {
-    this.graph = new PersistentGraph(store, new Data.Graph(SCHEMA));
-  } else {
-    this.graph = new Data.Graph(SCHEMA);
-  }
-
+var Library = function(options) {
+  this.graph = new Data.Graph(SCHEMA, options);
   this.schema = this.graph.schema;
 };
-
 
 // Library: Public Interface
 // ========
 //
 
 Library.__prototype__ = function() {
-
-  var __super__ = util.prototype(this);
 
   // delegate all methods to graph
   _.each(Data.Graph.prototype, function(f, name) {
@@ -149,7 +135,7 @@ Library.__prototype__ = function() {
   // returns a Substance.Document instance
 
   this.getDocument = function(id) {
-    var workingCopy = localDocStore.get(id);
+    var workingCopy = this.localDocStore.get(id);
     return workingCopy;
   };
 
