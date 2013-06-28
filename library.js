@@ -103,8 +103,8 @@ var Library = function(store) {
   } else {
     this.graph = new Data.Graph(SCHEMA);
   }
-  // this.library = new PersistentGraph(this.store, new Library());
-  // this.graph = new Data.Graph(SCHEMA);
+
+  this.schema = this.graph.schema;
 };
 
 
@@ -124,6 +124,7 @@ Library.__prototype__ = function() {
       };
     }
   }, this);
+
 
   // Get a document entry by id (read-only version ready for the view)
   // --------
