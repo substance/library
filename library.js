@@ -145,8 +145,11 @@ Library.__prototype__ = function() {
 
   this.getCollection = function(id) {
     var collection = this.get(id);
-    var res = util.deepclone(collection);
 
+    // TODO: FIXME handle empty library
+    // if (collection === undefined) return {documents:{}};
+
+    var res = util.deepclone(collection);
     res.documents = _.map(collection.documents, function(docId) {
       var entry = this.getEntry(docId);
       return util.deepclone(entry);
