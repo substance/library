@@ -36,13 +36,15 @@ var SCHEMA = {
     // Usually refers to a substance document, but we'd like to keep this generic
     "entry": {
       "properties": {
+        // document properties
         "title": "string",
-        "publications": ["array", "publication"], // representing current publications serialized as string
         "updated_at": "date",
         "created_at": "date",
         "creator": "user",
+        "keywords": ["array", "string"],
+        // extra properties
+        "publications": ["array", "publication"], // representing current publications serialized as string
         "collaborators": ["array", "user"],
-        "keywords": ["array", "string"]
       }
     },
 
@@ -117,16 +119,7 @@ Library.__prototype__ = function() {
   //
 
   this.getEntry = function(id) {
-    // 1. Get current working copy to derive information from
-    // var workingCopy = localDocStore.get(id);
     return this.get(id);
-    // return {
-    //   id: id,
-    //   title: "Untitled", // workingCopy.get('document').title,
-    //   authors: ["John Doe", "Jane Foo"], // Dynamically extract creator + collaborators
-    //   created_at: new Date(),
-    //   updated_at: new Date()
-    // };
   };
 
   // Get document (the contents)
@@ -156,6 +149,30 @@ Library.__prototype__ = function() {
     }, this);
     return res;
   };
+
+  var DOC_PROPS = ["title", "creator", "created_at", "keywords"];
+
+  this.onDocumentChanged = function(op, doc) {
+    var entry = this.get(doc.id);
+    if (entry === undefined) return;
+
+    this.exec(Data.Graph.Set([doc.id, "updated_at"], doc.updated_at));
+
+    // we are only interested in paths such as ["document", <prop>]
+    // where <prop> is one of the properties specified in DOC_PROPS
+
+    var path = op.path;
+    var prop = path[1];
+    if (path.length !== 2 || path[0] !== "document") return;
+    if (DOC_PROPS.indexOf(prop) < 0) return;
+
+    var newVal = doc.get(op.path);
+    this.exec(Data.Graph.Set([doc.id, prop], newVal));
+  };
+
+  this.observeDocument = function(doc) {
+    doc.on("graph:changed", this.onDocumentChanged, this);
+  };
 };
 
 // Set parent prototype (Data.Graph)
@@ -163,6 +180,13 @@ Library.__prototype__.prototype = Data.Graph.prototype;
 
 // Assign main prototype
 Library.prototype = new Library.__prototype__();
+
+Library.Entry = function(library, id) {
+  this.id = id;
+};
+
+Library.Entry.__prototype__ = function() {
+};
 
 // Exports
 if (typeof exports !== 'undefined') {
