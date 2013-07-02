@@ -3,18 +3,21 @@
 var _,
     util,
     Data,
-    errors;
+    errors,
+    ot;
 
 if (typeof exports !== 'undefined') {
   _ = require('underscore');
   util = require('../../util/util');
   errors = require('../../util/errors');
   Data = require('../../data/data');
+  ot = require('../../chronicle/lib/ot/index');
 } else {
   _ = root._;
   util = root.Substance.util;
   errors = root.Substance.errors;
   Data = root.Substance.Data;
+  ot = root.Substance.Chronicle.ot;
 }
 
 var LibraryError = errors.define('LibraryError', -1);
@@ -158,16 +161,31 @@ Library.__prototype__ = function() {
 
     this.exec(Data.Graph.Set([doc.id, "updated_at"], doc.updated_at));
 
-    // we are only interested in paths such as ["document", <prop>]
-    // where <prop> is one of the properties specified in DOC_PROPS
+    // TODO: it is quite inconvenient to implement this, especially due to existence of Compounds
+    // Think about, how this could be improved
 
-    var path = op.path;
-    var prop = path[1];
-    if (path.length !== 2 || path[0] !== "document") return;
-    if (DOC_PROPS.indexOf(prop) < 0) return;
 
-    var newVal = doc.get(op.path);
-    this.exec(Data.Graph.Set([doc.id, prop], newVal));
+    function processOp(op) {
+      // we are only interested in update paths such as ["document", <prop>]
+      // where <prop> is one of the properties specified in DOC_PROPS
+      var path = op.path;
+      var prop = path[1];
+      if (path.length !== 2 || path[0] !== "document") return;
+      if (DOC_PROPS.indexOf(prop) < 0) return;
+
+      var newVal = doc.get(op.path);
+      this.exec(Data.Graph.Set([doc.id, prop], newVal));
+    }
+
+    if (op instanceof ot.Compound) {
+      var ops = op.ops;
+      for (var idx = 0; idx < ops.length; idx++) {
+        processOp(ops[idx]);
+      }
+    } else {
+      processOp(op);
+    }
+
   };
 
   this.observeDocument = function(doc) {
