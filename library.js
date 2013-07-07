@@ -4,20 +4,20 @@ var _,
     util,
     Data,
     errors,
-    ot;
+    Operator;
 
 if (typeof exports !== 'undefined') {
   _ = require('underscore');
-  util = require('../../util/util');
-  errors = require('../../util/errors');
-  Data = require('../../data/data');
-  ot = require('../../chronicle/lib/ot/index');
+  util = require('substance-util');
+  errors = require('substance-util/errors');
+  Data = require('substance-data');
+  Operator = require('substance-operator');
 } else {
   _ = root._;
   util = root.Substance.util;
   errors = root.Substance.errors;
   Data = root.Substance.Data;
-  ot = root.Substance.Chronicle.ot;
+  Operator = root.Substance.Operator;
 }
 
 var LibraryError = errors.define('LibraryError', -1);
@@ -177,7 +177,7 @@ Library.__prototype__ = function() {
       this.exec(Data.Graph.Set([doc.id, prop], newVal));
     }
 
-    if (op instanceof ot.Compound) {
+    if (op instanceof Operator.Compound) {
       var ops = op.ops;
       for (var idx = 0; idx < ops.length; idx++) {
         processOp(ops[idx]);
