@@ -1,0 +1,22 @@
+{
+  "name": "substance-libary",
+  "description": "Where Substance documents feel at home.",
+  "keywords": ["substance", "documents", "library"],
+  "author": "Michael Aufreiter",
+  "contributors": ["Oliver Buchtala"],
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/substance/library.git"
+  },
+  "engines": {
+      "node": "0.8.x"
+  },
+  "dependencies": {
+    "underscore": "1.5.x",
+    "substance-util": "0.1.0",
+    "substance-test": "0.1.0",
+    "substance-operator": "0.1.0",
+    "substance-data": "0.1.0"
+  }
+}
