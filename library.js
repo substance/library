@@ -143,7 +143,7 @@ Library.__prototype__ = function() {
     var collection = this.get(id);
 
     // TODO: FIXME handle empty library
-    // if (collection === undefined) return {documents:{}};
+    if (!collection) return null;
 
     var res = util.deepclone(collection);
     res.documents = _.map(collection.documents, function(docId) {
@@ -159,7 +159,7 @@ Library.__prototype__ = function() {
     var entry = this.get(doc.id);
     if (entry === undefined) return;
 
-    this.exec(Data.Graph.Set([doc.id, "updated_at"], doc.updated_at));
+    this.apply(Data.Graph.Set([doc.id, "updated_at"], doc.updated_at));
 
     // TODO: it is quite inconvenient to implement this, especially due to existence of Compounds
     // Think about, how this could be improved
@@ -174,7 +174,7 @@ Library.__prototype__ = function() {
       if (DOC_PROPS.indexOf(prop) < 0) return;
 
       var newVal = doc.get(op.path);
-      this.exec(Data.Graph.Set([doc.id, prop], newVal));
+      this.apply(Data.Graph.Set([doc.id, prop], newVal));
     }
 
     if (op instanceof Operator.Compound) {
