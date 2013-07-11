@@ -70,6 +70,6 @@ test.actions = [
 
 ];
 
-root.Substance.registerTest(['Library', 'Library Usage'], test);
+root.Substance.Test.registerTest(['Library', 'Library Usage'], test);
 
 })(this);
