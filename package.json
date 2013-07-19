@@ -18,5 +18,8 @@
     "substance-test": "0.2.0",
     "substance-operator": "0.2.0",
     "substance-data": "0.8.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec tests/run.js"
   }
 }

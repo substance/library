@@ -1,24 +1,17 @@
-(function(root){ "use strict";
+"use strict";
 
-var _,
-    util,
-    Data,
-    errors,
-    Operator;
+// Import
+// ========
 
-if (typeof exports !== 'undefined') {
-  _ = require('underscore');
-  util = require('substance-util');
-  errors = require('substance-util/errors');
-  Data = require('substance-data');
-  Operator = require('substance-operator');
-} else {
-  _ = root._;
-  util = root.Substance.util;
-  errors = root.Substance.errors;
-  Data = root.Substance.Data;
-  Operator = root.Substance.Operator;
-}
+var _ = require('underscore');
+var util = require('substance-util');
+var errors = util.errors;
+var Data = require('substance-data');
+var Operator = require('substance-operator');
+
+
+// Module
+// ========
 
 var LibraryError = errors.define('LibraryError', -1);
 
@@ -206,11 +199,8 @@ Library.Entry = function(library, id) {
 Library.Entry.__prototype__ = function() {
 };
 
-// Exports
-if (typeof exports !== 'undefined') {
-  exports.Library = Library;
-} else {
-  root.Substance.Library = Library;
-}
 
-})(this);
+// Export
+// ========
+
+module.exports = Library;

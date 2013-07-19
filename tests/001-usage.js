@@ -1,11 +1,16 @@
-(function(root) {
+"use strict";
 
-var _ = root._;
-var assert = root.Substance.assert;
-var util = root.Substance.util;
-var Document = root.Substance.Document;
-var Library = root.Substance.Library;
-var Data = root.Substance.Data;
+// Import
+// ========
+
+var substance_test = require('substance-test');
+var assert = substance_test.assert;
+var registerTest = substance_test.registerTest;
+var Data = require('substance-data');
+var Library = require("..");
+
+// Test
+// ========
 
 var test = {};
 
@@ -38,8 +43,8 @@ test.actions = [
       publications: ["Conspiracy Theories"] // derive dynamically
     });
 
-    this.library.exec(op1);
-    this.library.exec(op2);
+    this.library.apply(op1);
+    this.library.apply(op2);
   },
 
   "Get document entries from library", function() {
@@ -58,18 +63,14 @@ test.actions = [
       documents: ["document_1", "document_2"]
     });
 
-    this.library.exec(op1);
+    this.library.apply(op1);
   },
 
   "Retrieve document collection", function() {
     var myDocs = this.library.getCollection('my_documents');
-
-    console.log('MYDOCS', myDocs);
-
+    assert.isTrue(myDocs.documents.length > 0);
   }
 
 ];
 
-root.Substance.Test.registerTest(['Library', 'Library Usage'], test);
-
-})(this);
+registerTest(['Library', 'Library Usage'], test);
