@@ -1,62 +1,20 @@
 "use strict";
 
-// Import
-// ========
+var _ = require("underscore");
+var util = require("substance-util");
+var Data = require("substance-data");
 
-var _ = require('underscore');
-var util = require('substance-util');
-var errors = util.errors;
-var Data = require('substance-data');
-var Operator = require('substance-operator');
-
-
-// Module
-// ========
-
-var LibraryError = errors.define('LibraryError', -1);
 
 // Library Schema
 // --------
 
 var SCHEMA = {
-  // Static indexes
-  "indexes": {
-    // all comments are now indexed by node association
-    "collections": {
-      "type": "collection",
-      "properties": []
-    }
-  },
-
+  "id": "substance-library",
+  "version": "0.1.0",
   "types": {
-    // Usually refers to a substance document, but we'd like to keep this generic
-    "entry": {
+    "library": {
       "properties": {
-        // document properties
-        "title": "string",
-        "updated_at": "date",
-        "created_at": "date",
-        "creator": "user",
-        "keywords": ["array", "string"],
-        // extra properties
-        "publications": ["array", "publication"], // representing current publications serialized as string
-        "collaborators": ["array", "user"],
-      }
-    },
-
-    "user": {
-      "properties": {
-        "username": "string",
-        "name": "string"
-      }
-    },
-
-    // A publication entry (for local caching)
-    "publication": {
-      "properties": {
-        "network": "network",
-        "document": "entry",
-        "creator": "user"
+        "collections": ["array", "collection"]
       }
     },
 
@@ -68,139 +26,93 @@ var SCHEMA = {
       }
     },
 
-    "network": {
-      "parent": "collection"
-    },
-
-    // Article is a concrete document type
-    "article": {
-      "parent": "entry"
-    },
-
-    // A book chapter
-    "chapter": {
-      "parent": "entry"
-    },
-
-    // A book is a concrete collectino of documents (usually chapters)
-    "book": {
-      "parent": "collection"
+    // Usually references a substance document, but we'd like to keep this generic
+    "record": {
+      "properties": {
+        "title": "string",
+        "published_on": "date",
+        "url": "string"
+      }
     }
   }
 };
 
+
+
+// Substance.Library
+// -----------------
+
 var Library = function(options) {
-  this.graph = new Data.Graph(SCHEMA, options);
-  this.schema = this.graph.schema;
-};
 
-// Library: Public Interface
-// ========
-//
-
-Library.__prototype__ = function() {
-
-  // delegate all methods to graph
-  _.each(Data.Graph.prototype, function(f, name) {
-    if (_.isFunction(f)) {
-      this[name] = function() {
-        return this.graph[name].apply(this.graph, arguments);
-      };
-    }
-  }, this);
-
-
-  // Get a document entry by id (read-only version ready for the view)
+  // Call parent constructor
   // --------
-  //
 
-  this.getEntry = function(id) {
-    return this.get(id);
-  };
+  // options.schema = SCHEMA;
 
-  // Get document (the contents)
+  console.log(options);
+
+  // debugger;
+  Data.Graph.call(this, SCHEMA, options);
+
+  // Seed the doc
   // --------
-  //
-  // returns a Substance.Document instance
 
-  this.getDocument = function(id) {
-    var workingCopy = this.localDocStore.get(id);
-    return workingCopy;
-  };
+  if (options.seed === undefined) {
+    this.create({
+      id: "library",
+      type: "library",
+      guid: options.id, // external global document id
+      creator: options.creator,
+      created_at: options.created_at,
+    });
+  }
+};
 
-  // Get a collection (read-only version ready for the view)
-  // --------
-  //
+Library.Prototype = function() {
 
-  this.getCollection = function(id) {
-    var collection = this.get(id);
-
-    // TODO: FIXME handle empty library
-    if (!collection) return null;
-
-    var res = util.deepclone(collection);
-    res.documents = _.map(collection.documents, function(docId) {
-      var entry = this.getEntry(docId);
-      return util.deepclone(entry);
-    }, this);
-    return res;
-  };
-
-  var DOC_PROPS = ["title", "creator", "created_at", "keywords"];
-
-  this.onDocumentChanged = function(op, doc) {
-    var entry = this.get(doc.id);
-    if (entry === undefined) return;
-
-    this.apply(Data.Graph.Set([doc.id, "updated_at"], doc.updated_at));
-
-    // TODO: it is quite inconvenient to implement this, especially due to existence of Compounds
-    // Think about, how this could be improved
+};
 
 
-    function processOp(op) {
-      // we are only interested in update paths such as ["document", <prop>]
-      // where <prop> is one of the properties specified in DOC_PROPS
-      var path = op.path;
-      var prop = path[1];
-      if (path.length !== 2 || path[0] !== "document") return;
-      if (DOC_PROPS.indexOf(prop) < 0) return;
+Library.Prototype.prototype = Data.Graph.prototype;
+Library.prototype = new Library.Prototype();
+Library.prototype.constructor = Library;
 
-      var newVal = doc.get(op.path);
-      this.apply(Data.Graph.Set([doc.id, prop], newVal));
+// Add convenience accessors for builtin document attributes
+Object.defineProperties(Library.prototype, {
+  id: {
+    get: function () {
+      return this.get("library").guid;
+    },
+    set: function() {
+      throw "library.id is immutable";
     }
-
-    if (op instanceof Operator.Compound) {
-      var ops = op.ops;
-      for (var idx = 0; idx < ops.length; idx++) {
-        processOp(ops[idx]);
-      }
-    } else {
-      processOp(op);
-    }
-
-  };
-
-  this.observeDocument = function(doc) {
-    doc.on("graph:changed", this.onDocumentChanged, this);
-  };
-};
-
-// Set parent prototype (Data.Graph)
-Library.__prototype__.prototype = Data.Graph.prototype;
-
-// Assign main prototype
-Library.prototype = new Library.__prototype__();
-
-Library.Entry = function(library, id) {
-  this.id = id;
-};
-
-Library.Entry.__prototype__ = function() {
-};
-
-
-// Export
-// ========
+  },
+  // creator: {
+  //   get: function () {
+  //     return this.get("document").creator;
+  //   }
+  // },
+  // created_at: {
+  //   get: function () {
+  //     return this.get("document").created_at;
+  //   }
+  // },
+  // title: {
+  //   get: function () {
+  //     return this.get("document").title;
+  //   }
+  // },
+  // abstract: {
+  //   get: function () {
+  //     return this.get("document").abstract;
+  //   }
+  // },
+  // views: {
+  //   get: function () {
+  //     // Note: returing a copy to avoid inadvertent changes
+  //     return this.get("document").views.slice(0);
+  //   }
+  // }
+});
 
 module.exports = Library;

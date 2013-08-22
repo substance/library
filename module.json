@@ -1,0 +1,22 @@
+{
+  "name"          : "substance-library",
+  "description"   : "A home for Substance Documents.",
+  "url"           : "http://github.com/substance/library/",
+  "keywords"      : ["digital library", "organizational unit"],
+  "author"        : "Michael Aufreiter",
+  "contributors"  : ["Oliver Buchtala"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/substance/library.git"
+  },
+  "dependencies": {
+    "underscore": "",
+    "substance-util": "",
+    "substance-application": "",
+    "substance-data": ""
+  },
+  "devDependencies": {
+    "substance-test": ""
+  },
+  "version"       : "0.1.0"
+}
