@@ -38,7 +38,6 @@ var SCHEMA = {
 };
 
 
-
 // Substance.Library
 // -----------------
 
@@ -70,6 +69,18 @@ var Library = function(options) {
 
 Library.Prototype = function() {
 
+  // Conveniently returns all records for a given collection id
+  // --------
+  // 
+
+  this.getCollection = function(collectionId) {
+    var collection = this.get(collectionId);
+    collection.records = _.map(collection.records, function(recordId) {
+      return this.get(recordId);
+    }, this);
+
+    return collection;
+  }
 };
 
 
