@@ -35,7 +35,8 @@ CollectionView.Prototype = function() {
       this.el.appendChild($$('a.document', {
         href: "#"+collection.id+"/"+record.id,
         children: [
-          $$('.title', { text: record.title })
+          $$('.title', { text: record.title }),
+          $$('.authors', { text: record.authors.join(', ') }),
         ]
       }));
     }, this);

@@ -63,6 +63,12 @@
   font-size: 16px;
 }
 
+.library .collection a.document .authors {
+  color: #777;
+  font-size: 15px;
+  padding: 10px 0;
+}
+
 .library .collection a.document:hover .title {
   color: rgba(11, 157, 217, 1);
 }

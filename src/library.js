@@ -33,6 +33,7 @@ var SCHEMA = {
     "record": {
       "properties": {
         "title": "string",
+        "authors": ["array", "string"],
         "published_on": "date",
         "url": "string"
       }
