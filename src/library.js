@@ -46,11 +46,6 @@ var Library = function(options) {
   // Call parent constructor
   // --------
 
-  // options.schema = SCHEMA;
-
-  console.log(options);
-
-  // debugger;
   Data.Graph.call(this, SCHEMA, options);
 
   // Seed the doc
