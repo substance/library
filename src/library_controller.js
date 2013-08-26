@@ -10,10 +10,12 @@ var util = require("substance-util");
 // -----------------
 //
 
-var LibraryController = function(library) {
+var LibraryController = function(library, state) {
   this.library = library; 
 
-  this.collection = this.library.getCollection("docs");
+  this.state = state;
+
+  this.collection = this.library.getCollection(state.collection);
 
   Controller.call(this);
   

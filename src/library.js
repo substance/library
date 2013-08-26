@@ -3,6 +3,7 @@
 var _ = require("underscore");
 var util = require("substance-util");
 var Data = require("substance-data");
+var Collection = require("./collection");
 
 
 // Library Schema
@@ -14,15 +15,16 @@ var SCHEMA = {
   "types": {
     "library": {
       "properties": {
+        "name": "string",
         "collections": ["array", "collection"]
       }
     },
 
-    // A collection contains a number of documents
+    // A collection contains a number of document_records
     "collection": {
       "properties": {
         "name": "string",
-        "documents": ["array", "entry"] // entries
+        "documents": ["array", "record"]
       }
     },
 
@@ -62,19 +64,17 @@ var Library = function(options) {
   }
 };
 
+
 Library.Prototype = function() {
 
-  // Conveniently returns all records for a given collection id
+  // Get Collection by id
   // --------
   // 
+  // Returns a Library.Collection object
 
   this.getCollection = function(collectionId) {
     var collection = this.get(collectionId);
-    collection.records = _.map(collection.records, function(recordId) {
-      return this.get(recordId);
-    }, this);
-
-    return collection;
+    return new Collection(collection, this);
   }
 };
 
@@ -83,42 +83,34 @@ Library.Prototype.prototype = Data.Graph.prototype;
 Library.prototype = new Library.Prototype();
 Library.prototype.constructor = Library;
 
-// Add convenience accessors for builtin document attributes
+
+// Add convenience accessors for built in document attributes
+// --------
+// 
+
 Object.defineProperties(Library.prototype, {
   id: {
-    get: function () {
+    get: function() {
       return this.get("library").guid;
     },
     set: function() {
       throw "library.id is immutable";
     }
   },
-  // creator: {
-  //   get: function () {
-  //     return this.get("document").creator;
-  //   }
-  // },
-  // created_at: {
-  //   get: function () {
-  //     return this.get("document").created_at;
-  //   }
-  // },
-  // title: {
-  //   get: function () {
-  //     return this.get("document").title;
-  //   }
-  // },
-  // abstract: {
-  //   get: function () {
-  //     return this.get("document").abstract;
-  //   }
-  // },
-  // views: {
-  //   get: function () {
-  //     // Note: returing a copy to avoid inadvertent changes
-  //     return this.get("document").views.slice(0);
-  //   }
-  // }
+
+  name: {
+    get: function() {
+      return this.get("library").name;
+    }
+  },
+
+  collections: {
+    get: function() {
+      return _.map(this.get("library").collections, function(collectionId) {
+        return new Collection(this.get(collectionId), this);
+      }, this);
+    }
+  }
 });
 
 module.exports = Library;

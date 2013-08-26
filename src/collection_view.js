@@ -11,11 +11,11 @@ var $$ = require("substance-application").$$;
 //
 // The Substance Collection display
 
-var CollectionView = function(library) {
+var CollectionView = function(libraryCtrl) {
   View.call(this);
 
   this.$el.addClass('collection');
-  this.library = library;
+  this.libraryCtrl = libraryCtrl;
 };
 
 CollectionView.Prototype = function() {
@@ -28,11 +28,12 @@ CollectionView.Prototype = function() {
 
   this.render = function() {
     // Render the collection
-    var records = this.library.collection.records;
+    var collection = this.libraryCtrl.collection;
+    var records = collection.records;
 
     _.each(records, function(record) {
       this.el.appendChild($$('a.document', {
-        href: "#"+record.id,
+        href: "#"+collection.id+"/"+record.id,
         children: [
           $$('.title', { text: record.title })
         ]

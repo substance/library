@@ -5,6 +5,7 @@ var util = require('substance-util');
 var html = util.html;
 var View = require("substance-application").View;
 var CollectionView = require("./collection_view");
+var $$ = require("substance-application").$$;
 
 
 // Substance.Library.View
@@ -12,13 +13,13 @@ var CollectionView = require("./collection_view");
 //
 // The Substance Document Editor
 
-var LibraryView = function(library) {
+var LibraryView = function(libraryCtrl) {
   View.call(this);
 
   this.$el.addClass('library');
-  this.library = library;
+  this.libraryCtrl = libraryCtrl;
 
-  this.collectionView = new CollectionView(library);
+  this.collectionView = new CollectionView(libraryCtrl);
 };
 
 LibraryView.Prototype = function() {
@@ -26,14 +27,40 @@ LibraryView.Prototype = function() {
   // Rendering
   // --------
   //
+  // .collection-toggles
+  //    .toggle-collection
+  // .collection
 
   this.render = function() {
-    this.$el.html(html.tpl('library', this.library));
+    var collections = this.libraryCtrl.library.collections;
+    var activeCollection = this.libraryCtrl.collection;
 
-    // // Render current collection
+
+    var collectionToggles = $$('.collection-toggles', {
+      children: _.map(collections, function(c) {
+        function active() {
+          return c.id === activeCollection.id;
+        }
+
+        return $$('a', {
+          id: "collection_toggle_"+c.id,
+          class: "toggle-collection"+(active() ? " active": ""),
+          href: "#"+c.id,
+          text: c.name
+        })
+      })
+    });
+
+    this.el.appendChild(collectionToggles);
+
+    // Container for collection view
+    this.el.appendChild($$('.collection'));
+
+    // Render current collection
     this.$('.collection').replaceWith(this.collectionView.render().el);
     return this;
   };
+
 
   this.dispose = function() {
     this.stopListening();

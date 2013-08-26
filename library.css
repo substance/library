@@ -2,7 +2,7 @@
   overflow: auto;
 }
 
-.library .navigation {
+.library .collection-toggles {
   padding: 20px;
   
   font-size: 14px;
@@ -13,17 +13,19 @@
   width: 300px;
 }
 
-.library .navigation input {
-  font-family: 'Open Sans';
-  width: 100%;
-  display: block;
-  margin-bottom: 20px;
-}
-
-/* The import button */
-.library .navigation a.import-document {
+.library .toggle-collection {
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
+  display: block;
+  padding: 20px 10px;
+}
+
+.library .toggle-collection:hover {
+  background: rgba(255,255,255,0.6);
+}
+
+.library .toggle-collection.active {
+  background: #fff;
 }
 
 .library .navigation .label {
@@ -33,9 +35,6 @@
   font-size: 16px;
 }
 
-.library .navigation .explanation {
-  padding-bottom: 20px;
-}
 
 .library .collection {
    background: white;
@@ -47,13 +46,7 @@
 }
 
 
-/* Collection */
-
-.collection {
-
-}
-
-.collection a.document {
+.library .collection a.document {
   display: block;
   background: white;
   width: 400px;
@@ -64,12 +57,12 @@
   float: left;
 }
 
-.collection a.document .title {
+.library .collection a.document .title {
   color: #1B6685;
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
 }
 
-.collection a.document:hover .title {
+.library .collection a.document:hover .title {
   color: rgba(11, 157, 217, 1);
 }
