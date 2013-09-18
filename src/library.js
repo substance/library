@@ -4,7 +4,6 @@ var _ = require("underscore");
 var util = require("substance-util");
 var Data = require("substance-data");
 var Collection = require("./collection");
-var Article = require("lens-article");
 var Chronicle = require("substance-chronicle");
 
 // Library Schema
@@ -85,12 +84,25 @@ Library.Prototype = function() {
   // It reads the corresponding document record and tries to fetch the article from the URL provided
 
   this.loadDocument = function(docId, cb) {
+    
+    
+
     var record = this.get(docId);
+    var doc;
     console.log('LOADING DOC from: ', record.url);
+    // check schema
     $.getJSON(record.url, function(data) {
-      var doc = Article.fromSnapshot(data, {
-        chronicle: Chronicle.create()
-      });
+
+      if (data.schema && data.schema[0] === "lens-article") {
+        console.log('lens article');
+        var Article = require("lens-article");
+        doc = Article.fromSnapshot(data);
+      } else {
+        console.log('substance article');
+        var Article = require("substance-article");
+        doc = Article.fromSnapshot(data);
+      }
+      
       cb(null, doc);
     });
   };
