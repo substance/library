@@ -13,18 +13,18 @@
   width: 300px;
 }
 
-.library .toggle-collection {
+.library .collection {
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
   display: block;
   padding: 20px 10px;
 }
 
-.library .toggle-collection:hover {
+.library .collection:hover {
   background: rgba(255,255,255,0.6);
 }
 
-.library .toggle-collection.active {
+.library .collection.active {
   background: #fff;
 }
 
@@ -35,8 +35,9 @@
   font-size: 16px;
 }
 
+/* Main collection */
 
-.library .collection {
+#main .collection {
    background: white;
    position: absolute;
    left: 300px;
@@ -45,8 +46,7 @@
    width: 800px;
 }
 
-
-.library .collection a.document {
+#main .collection a.document {
   display: block;
   background: white;
   width: 400px;
@@ -57,18 +57,18 @@
   float: left;
 }
 
-.library .collection a.document .title {
+#main .collection a.document .title {
   color: #1B6685;
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
 }
 
-.library .collection a.document .authors {
+#main .collection a.document .authors {
   color: #777;
   font-size: 15px;
   padding: 10px 0;
 }
 
-.library .collection a.document:hover .title {
+#main .collection a.document:hover .title {
   color: rgba(11, 157, 217, 1);
 }

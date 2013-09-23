@@ -106,7 +106,6 @@ Library.Prototype = function() {
       cb(null, doc);
     });
   };
-
 };
 
 

@@ -18,8 +18,6 @@ var LibraryView = function(libraryCtrl) {
 
   this.$el.addClass('library');
   this.libraryCtrl = libraryCtrl;
-
-  this.collectionView = new CollectionView(libraryCtrl);
 };
 
 LibraryView.Prototype = function() {
@@ -33,31 +31,22 @@ LibraryView.Prototype = function() {
 
   this.render = function() {
     var collections = this.libraryCtrl.library.collections;
-    var activeCollection = this.libraryCtrl.collection;
-
+    // var activeCollection = this.libraryCtrl.collection;
 
     var collectionToggles = $$('.collection-toggles', {
       children: _.map(collections, function(c) {
-        function active() {
-          return c.id === activeCollection.id;
-        }
-
         return $$('a', {
-          id: "collection_toggle_"+c.id,
-          class: "toggle-collection"+(active() ? " active": ""),
-          href: "#"+c.id,
+          id: "collection"+c.id,
+          class: "toggle-collection", // +(active() ? " active": "")
+          href: "#collections/"+c.id,
           text: c.name
-        })
+        });
       })
     });
 
     this.el.appendChild(collectionToggles);
 
-    // Container for collection view
-    this.el.appendChild($$('.collection'));
 
-    // Render current collection
-    this.$('.collection').replaceWith(this.collectionView.render().el);
     return this;
   };
 

@@ -15,8 +15,6 @@ var LibraryController = function(library, state) {
 
   this.state = state;
 
-  this.collection = this.library.getCollection(state.collection);
-
   Controller.call(this);
   
   // Create library view
@@ -34,31 +32,8 @@ LibraryController.Prototype = function() {
   // Transitions
   // ==================================
 
-
-  // Provides an array of (context, controller) tuples that describe the
-  // current state of responsibilities
-  // --------
-  // 
-  // E.g., when a document is opened:
-  //    ["application", "document"]
-  // with controllers taking responisbility:
-  //    [this, this.document]
-  //
-  // The child controller (e.g., document) should itself be allowed to have sub-controllers.
-  // For sake of prototyping this is implemented manually right now.
-  // TODO: discuss naming
-
   this.getActiveControllers = function() {
-    var result = [ ["sandbox", this] ];
-
-    var state = this.state;
-
-    if (state === "editor") {
-      result = result.concat(this.editor.getActiveControllers());
-    } else if (state === "test_center") {
-      result.push(["test_center", this.testRunner]);
-    }
-    return result;
+    return [];
   };
 };
 
