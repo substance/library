@@ -1,8 +1,11 @@
-.library {
+/* Library View
+======================================= */
+
+.library-view {
   overflow: auto;
 }
 
-.library .collection-toggles {
+.library-view .collections {
   padding: 20px;
   
   font-size: 14px;
@@ -10,65 +13,77 @@
   left: 0px;
   top: 0px;
   bottom: 0px;
-  width: 300px;
+  right: 0px;
 }
 
-.library .collection {
+.library-view .collection {
+  position: relative;
+  opacity: 0.9;
+  display: block;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.library-view .collection .name {
+  color: rgba(0,0,0, 0.8);
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
-  display: block;
-  padding: 20px 10px;
 }
 
-.library .collection:hover {
-  background: rgba(255,255,255,0.6);
+.library-view .collection .count {
+  font-size: 14px;
+  color: rgba(0,0,0, 0.5);
 }
 
-.library .collection.active {
+.library-view .collection:hover {
+  opacity: 1;
+}
+
+.library-view .collection.active {
   background: #fff;
 }
 
-.library .navigation .label {
+.library-view .navigation .label {
   margin-top: 30px;
   padding-bottom: 20px;
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
   font-size: 16px;
 }
 
-/* Main collection */
+/* Collection View
+======================================= */
 
-#main .collection {
+.collection-view {
    background: white;
    position: absolute;
-   left: 300px;
+   left: 0px;
    top: 0px;
    bottom: 0px;
    width: 800px;
 }
 
-#main .collection a.document {
+.collection-view a.document {
   display: block;
   background: white;
-  width: 400px;
   height: 160px;
   padding: 30px 30px;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  float: left;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-#main .collection a.document .title {
+.collection-view a.document .title {
   color: #1B6685;
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
-  font-size: 16px;
+  font-size: 18px;
 }
 
-#main .collection a.document .authors {
+.collection-view a.document .authors {
   color: #777;
   font-size: 15px;
   padding: 10px 0;
 }
 
-#main .collection a.document:hover .title {
+.collection-view a.document:hover .title {
   color: rgba(11, 157, 217, 1);
 }

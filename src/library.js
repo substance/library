@@ -20,10 +20,11 @@ var SCHEMA = {
       }
     },
 
-    // A collection contains a number of document_records
+    // A collection contains a number of records
     "collection": {
       "properties": {
         "name": "string",
+        "descr": "string",
         "documents": ["array", "record"]
       }
     },
@@ -85,8 +86,6 @@ Library.Prototype = function() {
 
   this.loadDocument = function(docId, cb) {
     
-    
-
     var record = this.get(docId);
     var doc;
     console.log('LOADING DOC from: ', record.url);

@@ -16,7 +16,7 @@ var $$ = require("substance-application").$$;
 var LibraryView = function(libraryCtrl) {
   View.call(this);
 
-  this.$el.addClass('library');
+  this.$el.addClass('library-view');
   this.libraryCtrl = libraryCtrl;
 };
 
@@ -33,13 +33,16 @@ LibraryView.Prototype = function() {
     var collections = this.libraryCtrl.library.collections;
     // var activeCollection = this.libraryCtrl.collection;
 
-    var collectionToggles = $$('.collection-toggles', {
+    var collectionToggles = $$('.collections', {
       children: _.map(collections, function(c) {
         return $$('a', {
-          id: "collection"+c.id,
-          class: "toggle-collection", // +(active() ? " active": "")
-          href: "#collections/"+c.id,
-          text: c.name
+          id: "collection_"+c.id,
+          class: "collection", // +(active() ? " active": "")
+          href: "#"+c.id,
+          children: [
+            $$('.name', {text: c.name}),
+            $$('.count', {text: c.records.length + " documents"})
+          ]
         });
       })
     });

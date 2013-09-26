@@ -14,7 +14,7 @@ var $$ = require("substance-application").$$;
 var CollectionView = function(collectionCtrl) {
   View.call(this);
 
-  this.$el.addClass('collection');
+  this.$el.addClass('collection-view');
   this.collectionCtrl = collectionCtrl;
 };
 
