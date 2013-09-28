@@ -24,25 +24,32 @@ CollectionView.Prototype = function() {
   // --------
   //
   // .collection
-  //   .title
+  //   .records
+  //     .title
+  //     .authors
 
   this.render = function() {
-
 
     // Render the collection
     var collection = this.collectionCtrl.collection;
     var records = collection.records;
-    console.log(this.collectionCtrl);
+    // console.log(this.collectionCtrl);
+
+    var recordsEl = $$('.records');
 
     _.each(records, function(record) {
-      this.el.appendChild($$('a.document', {
-        href: "#"+collection.id+"/"+record.id,
+      recordsEl.appendChild($$('.record', {
         children: [
-          $$('.title', { text: record.title }),
+          $$('a.title', {
+            href: "#"+collection.id+"/"+record.id,
+            text: record.title 
+          }),
           $$('.authors', { text: record.authors.join(', ') }),
         ]
       }));
     }, this);
+
+    this.el.appendChild(recordsEl);
     return this;
   };
 

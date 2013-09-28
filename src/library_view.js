@@ -35,12 +35,13 @@ LibraryView.Prototype = function() {
 
     var collectionToggles = $$('.collections', {
       children: _.map(collections, function(c) {
-        return $$('a', {
+        return $$('div', {
           id: "collection_"+c.id,
           class: "collection", // +(active() ? " active": "")
-          href: "#"+c.id,
+          
           children: [
-            $$('.name', {text: c.name}),
+            $$('a.name', {href: "#"+c.id, text: c.name}),
+            $$('.description', {text: c.description}),
             $$('.count', {text: c.records.length + " documents"})
           ]
         });

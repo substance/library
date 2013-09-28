@@ -24,7 +24,7 @@ var SCHEMA = {
     "collection": {
       "properties": {
         "name": "string",
-        "descr": "string",
+        "description": "string",
         "documents": ["array", "record"]
       }
     },
@@ -83,6 +83,7 @@ Library.Prototype = function() {
   // --------
   // 
   // It reads the corresponding document record and tries to fetch the article from the URL provided
+  // TODO: Get rid of lens-article dependency here
 
   this.loadDocument = function(docId, cb) {
     
