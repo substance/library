@@ -7,7 +7,7 @@
 
 .library-view .collections {
   padding: 20px;
-  
+  overflow: auto;
   font-size: 14px;
   position: absolute;
   left: 0px;
@@ -58,6 +58,7 @@
 .collection-view {
    background: white;
    position: absolute;
+   overflow: auto;
    left: 0px;
    top: 0px;
    bottom: 0px;
