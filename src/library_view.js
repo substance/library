@@ -42,6 +42,7 @@ LibraryView.Prototype = function() {
           children: [
             $$('a.name', {href: "#"+c.id, text: c.name}),
             $$('.description', {text: c.description}),
+            $$('img.teaser', {src: c.image}),
             $$('.count', {text: c.records.length + " documents"})
           ]
         });

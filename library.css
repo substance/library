@@ -9,11 +9,13 @@
   padding: 20px;
   overflow: auto;
   font-size: 14px;
+  background: white;
+
   position: absolute;
   left: 0px;
   top: 0px;
   bottom: 0px;
-  right: 0px;
+  max-width: 700px;
 }
 
 .library-view .collection {
@@ -21,32 +23,40 @@
   opacity: 0.9;
   display: block;
   padding: 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  margin-left: 30px;
+
   margin-right: 20px;
   margin-bottom: 20px;
 }
 
+
+.library-view .collection .teaser {
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  width: 100px;
+  border-radius: 50px;
+}
+
 .library-view .collection .name {
-  /*color: rgba(0,0,0, 0.8);*/
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .library-view .collection .description {
-  color: rgba(0,0,0, 0.8);
+  color: rgba(0,0,0, 0.7);
   padding: 10px 0;
-  margin-right: 200px;
-  font-size: 16px;
+  margin-right: 100px;
+  max-width: 700px;
+  font-size: 18px;
 }
 
 .library-view .collection .count {
-  font-size: 14px;
+  font-size: 16px;
+  font-style: italic;
   color: rgba(0,0,0, 0.5);
 }
 
-.library-view .collection:hover {
-  opacity: 1;
-}
 
 .library-view .collection.active {
   background: #fff;
@@ -69,24 +79,24 @@
    left: 0px;
    top: 0px;
    bottom: 0px;
-   width: 800px;
+   width: 700px;
+   padding-top: 30px;
 }
 
 .collection-view .record {
   display: block;
   background: white;
-  height: 160px;
+  margin-left: 40px;
   padding: 30px 30px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .collection-view .record a.title {
   font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .collection-view .record .authors {
   color: #777;
-  font-size: 15px;
+  font-size: 18px;
   padding: 10px 0;
 }

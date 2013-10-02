@@ -45,6 +45,14 @@ Object.defineProperties(Collection.prototype, {
       throw "collection.description is immutable";
     }
   },
+  image: {
+    get: function() {
+      return this.properties.image;
+    },
+    set: function() {
+      throw "collection.image is immutable";
+    }
+  },
   records: {
     get: function() {
       return _.map(this.properties.records, function(recordId) {
