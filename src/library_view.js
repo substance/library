@@ -7,7 +7,6 @@ var View = require("substance-application").View;
 var CollectionView = require("./collection_view");
 var $$ = require("substance-application").$$;
 
-
 // Substance.Library.View
 // ==========================================================================
 //
@@ -31,13 +30,20 @@ LibraryView.Prototype = function() {
 
   this.render = function() {
     var collections = this.libraryCtrl.library.collections;
-    // var activeCollection = this.libraryCtrl.collection;
+
+    // Sort by published_on date
+    collections = _.sortBy(collections, function(c) {
+      return c.updated_at;
+    });
+
+    // Flip the array
+    collections.reverse();
 
     var collectionToggles = $$('.collections', {
       children: _.map(collections, function(c) {
         return $$('div', {
           id: "collection_"+c.id,
-          class: "collection", // +(active() ? " active": "")
+          class: "collection",
           
           children: [
             $$('a.name', {href: "#"+c.id, text: c.name}),
@@ -50,8 +56,6 @@ LibraryView.Prototype = function() {
     });
 
     this.el.appendChild(collectionToggles);
-
-
     return this;
   };
 

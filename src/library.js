@@ -25,6 +25,7 @@ var SCHEMA = {
       "properties": {
         "name": "string",
         "description": "string",
+        "updated_at": "date",
         "image": "string",
         "documents": ["array", "record"]
       }

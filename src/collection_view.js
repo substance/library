@@ -29,24 +29,53 @@ CollectionView.Prototype = function() {
   //     .authors
 
   this.render = function() {
-
     // Render the collection
     var collection = this.collectionCtrl.collection;
     var records = collection.records;
-    // console.log(this.collectionCtrl);
-
     var recordsEl = $$('.records');
 
+    // Sort by published_on date
+    records = _.sortBy(records, function(record){ 
+      return record.published_on;
+    });
+
+    // Flip the array
+    records.reverse();
+
     _.each(records, function(record) {
-      recordsEl.appendChild($$('.record', {
-        children: [
-          $$('a.title', {
-            href: "#"+collection.id+"/"+record.id,
-            text: record.title 
-          }),
-          $$('.authors', { text: record.authors.join(', ') }),
-        ]
+      var children = [];
+      var dateStr;
+
+      // Publish date (if available)
+      // ----------
+
+      if (record.published_on) {
+        children.push($$('.date', {
+          text: new Date(record.published_on).toDateString()
+        }));
+      }
+
+      // Title
+      // ----------
+
+      children.push($$('a.title', {
+        href: "#"+collection.id+"/"+record.id,
+        text: record.title 
       }));
+
+      // Authors
+      // ----------
+
+      children.push($$('.authors', { 
+        html: record.authors.join(', ')
+      }));
+
+      recordsEl.appendChild($$('.record', {
+        children: children
+      }));
+
+
+
     }, this);
 
     this.el.appendChild(recordsEl);

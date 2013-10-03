@@ -37,6 +37,14 @@ Object.defineProperties(Collection.prototype, {
       throw "collection.name is immutable";
     }
   },
+  updated_at: {
+    get: function() {
+      return this.properties.updated_at;
+    },
+    set: function() {
+      throw "collection.updated_at is immutable";
+    }
+  },
   description: {
     get: function() {
       return this.properties.description;
