@@ -6,6 +6,7 @@ var html = util.html;
 var View = require("substance-application").View;
 var $$ = require("substance-application").$$;
 
+
 // Substance.Collection.View
 // ==========================================================================
 //
@@ -23,15 +24,32 @@ CollectionView.Prototype = function() {
   // Rendering
   // --------
   //
-  // .collection
+  // .collection-view
   //   .records
   //     .title
   //     .authors
 
   this.render = function() {
+
     // Render the collection
     var collection = this.collectionCtrl.collection;
     var records = collection.records;
+
+    // Collection metadata
+    // ----------
+
+    this.el.appendChild($$('.collection', {
+      children: [
+        $$('.name', {text: collection.name}),
+        $$('.description', {text: collection.description}),
+        $$('img.teaser', {src: collection.image})
+      ]
+    }));
+
+
+    // Collection records
+    // ----------
+
     var recordsEl = $$('.records');
 
     // Sort by published_on date
@@ -73,8 +91,6 @@ CollectionView.Prototype = function() {
       recordsEl.appendChild($$('.record', {
         children: children
       }));
-
-
 
     }, this);
 
