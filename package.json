@@ -1,0 +1,28 @@
+{
+  "name": "substance-library",
+  "description": "Substance Library interface",
+  "url": "http://github.com/substance/library/",
+  "keywords": [
+    "digital library",
+    "organizational unit"
+  ],
+  "author": "Michael Aufreiter",
+  "contributors": [
+    "Oliver Buchtala"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/substance/library.git"
+  },
+  "dependencies": {
+    "underscore": "1.5.x",
+    "substance-util": "master",
+    "substance-application": "master",
+    "substance-data": "master"
+  },
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=0.8.x",
+    "npm": ">=1.1.x"
+  }
+}
