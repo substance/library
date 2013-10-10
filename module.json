@@ -1,6 +1,6 @@
 {
   "name"          : "substance-library",
-  "description"   : "A home for Substance Documents.",
+  "description"   : "Substance Library interface",
   "url"           : "http://github.com/substance/library/",
   "keywords"      : ["digital library", "organizational unit"],
   "author"        : "Michael Aufreiter",
@@ -14,9 +14,6 @@
     "substance-util": "",
     "substance-application": "",
     "substance-data": ""
-  },
-  "devDependencies": {
-    "substance-test": ""
   },
   "version"       : "0.1.0"
 }
