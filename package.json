@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "underscore": "1.5.x",
-    "substance-util": "0.2.0",
-    "substance-application": "0.1.0",
-    "substance-data": "0.8.0"
+    "substance-util": "git+https://github.com/substance/util.git#0.3.x",
+    "substance-application": "git+https://github.com/substance/application.git#0.2.x",
+    "substance-data": "git+https://github.com/michael/data.git#0.9.x"
   },
   "version": "0.1.0",
   "engines": {
