@@ -38,6 +38,14 @@ CollectionView.Prototype = function() {
     // Collection metadata
     // ----------
 
+
+    this.el.appendChild($$('a.back-nav', {
+      'href': '#',
+      'title': 'Go back',
+      'html': '<i class=" icon-chevron-up"></i>'
+    }));
+
+
     this.el.appendChild($$('.collection', {
       children: [
         $$('.name', {text: collection.name}),
