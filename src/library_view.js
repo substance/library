@@ -44,7 +44,6 @@ LibraryView.Prototype = function() {
         return $$('div', {
           id: "collection_"+c.id,
           class: "collection",
-          
           children: [
             $$('a.name', {href: "#"+c.id, text: c.name}),
             $$('.description', {text: c.description}),
@@ -54,6 +53,26 @@ LibraryView.Prototype = function() {
         });
       })
     });
+
+    var children = [];
+    children.push($$('div.title', {text: "Substance"}));
+    children.push($$('div.description', {text: "Towards open digital publishing."}));
+
+    children.push(
+      $$('.links', {
+        children: [
+          $$('a.learn-more', {href: "#substance/about", text: "Learn more"})
+        ]
+      })
+    );
+
+    var teaser = $$('div.library-info', {
+      children: [$$('div.inner', {
+        children: children
+      })]
+    });
+
+    this.el.appendChild(teaser);
 
     this.el.appendChild(collectionToggles);
     return this;

@@ -38,19 +38,28 @@ CollectionView.Prototype = function() {
     // Collection metadata
     // ----------
 
-
-    this.el.appendChild($$('a.back-nav', {
-      'href': '#',
-      'title': 'Go back',
-      'html': '<i class=" icon-chevron-up"></i>'
-    }));
-
+    // this.el.appendChild($$('a.back-nav', {
+    //   'href': '#',
+    //   'title': 'Go back',
+    //   'html': '<i class=" icon-chevron-up"></i>'
+    // }));
 
     this.el.appendChild($$('.collection', {
       children: [
-        $$('.name', {text: collection.name}),
-        $$('.description', {text: collection.description}),
-        $$('img.teaser', {src: collection.image})
+        $$('.inner', {
+          children: [
+            $$('.path', {
+              children: [
+                $$('a.back', {href: '#', text: "Substance"}),
+                $$('span.sep', {html: "&middot;"}),
+                $$('span.name', {text: collection.name}),
+              ]
+            }),
+            $$('.description', {text: collection.description}),
+            $$('img.teaser', {src: collection.image}),
+
+          ]
+        })
       ]
     }));
 
