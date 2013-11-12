@@ -6,34 +6,31 @@ var CollectionView = require("./collection_view");
 var util = require("substance-util");
 
 
-// Substance.Library.Controller
-// -----------------
-//
-
 var CollectionController = function(collection) {
   Controller.call(this);
   this.collection = collection;
 };
 
-
 CollectionController.Prototype = function() {
 
   var __super__ = Controller.prototype;
 
-  this.initialize = function(newState, args, cb) {
+  this.initialize = function(newState, cb) {
     this.createView();
-    this.state = "initialized";
     cb(null);
   };
 
   this.dispose = function() {
     __super__.dispose.call(this);
-    this.view.dispose();
+    if (this.view) {
+      this.view.dispose();
+      this.view = null;
+    }
   };
 
   this.createView = function() {
-    var view = new CollectionView(this);
-    return view;
+    if (!this.view) this.view = new CollectionView(this);
+    return this.view;
   };
 
   // initialize the controller automatically when it is present as a child controller

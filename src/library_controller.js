@@ -19,16 +19,17 @@ LibraryController.Prototype = function() {
 
   var __super__ = Controller.prototype;
 
-  this.initialize = function(newState, args, cb) {
+  this.initialize = function(newState, cb) {
     this.createView();
-    this.setState("initialized");
     cb(null);
   };
 
   this.dispose = function() {
     __super__.dispose.call(this);
-    if (this.view) this.view.dispose();
-    this.view = null;
+    if (this.view) {
+      this.view.dispose();
+      this.view = null;
+    }
   };
 
   this.createView = function() {
