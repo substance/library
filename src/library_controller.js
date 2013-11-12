@@ -5,7 +5,6 @@ var Controller = require("substance-application").Controller;
 var LibraryView = require("./library_view");
 var util = require("substance-util");
 
-
 // Substance.Library.Controller
 // -----------------
 //
@@ -20,10 +19,10 @@ LibraryController.Prototype = function() {
 
   var __super__ = Controller.prototype;
 
-  this.initialize = function() {
-    debugger();
+  this.initialize = function(newState, args, cb) {
     this.createView();
     this.setState("initialized");
+    cb(null);
   };
 
   this.dispose = function() {

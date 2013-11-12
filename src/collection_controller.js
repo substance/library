@@ -20,9 +20,10 @@ CollectionController.Prototype = function() {
 
   var __super__ = Controller.prototype;
 
-  this.initialize = function() {
+  this.initialize = function(newState, args, cb) {
     this.createView();
     this.state = "initialized";
+    cb(null);
   };
 
   this.dispose = function() {
@@ -35,6 +36,8 @@ CollectionController.Prototype = function() {
     return view;
   };
 
+  // initialize the controller automatically when it is present as a child controller
+  this.AUTO_INIT = true;
 };
 
 // Exports
