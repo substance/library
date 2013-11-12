@@ -10,33 +10,36 @@ var util = require("substance-util");
 // -----------------
 //
 
-var LibraryController = function(library, state) {
-  this.library = library; 
-
-  this.state = state;
-
+var LibraryController = function(library) {
   Controller.call(this);
-  
-  // Create library view
-  this.view = new LibraryView(this);
+  this.library = library;
+  this.view = null;
 };
-
 
 LibraryController.Prototype = function() {
 
+  var __super__ = Controller.prototype;
+
+  this.initialize = function() {
+    debugger();
+    this.createView();
+    this.setState("initialized");
+  };
+
+  this.dispose = function() {
+    __super__.dispose.call(this);
+    if (this.view) this.view.dispose();
+    this.view = null;
+  };
+
   this.createView = function() {
-    var view = new LibraryView(this);
-    return view;
+    if (!this.view) this.view = new LibraryView(this);
+    return this.view;
   };
 
-  // Transitions
-  // ==================================
-
-  this.getActiveControllers = function() {
-    return [];
-  };
+  // initialize the controller automatically when it is present as a child controller
+  this.AUTO_INIT = true;
 };
-
 
 // Exports
 // --------
@@ -44,6 +47,5 @@ LibraryController.Prototype = function() {
 LibraryController.Prototype.prototype = Controller.prototype;
 LibraryController.prototype = new LibraryController.Prototype();
 _.extend(LibraryController.prototype, util.Events);
-
 
 module.exports = LibraryController;

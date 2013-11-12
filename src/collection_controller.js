@@ -10,25 +10,32 @@ var util = require("substance-util");
 // -----------------
 //
 
-var CollectionController = function(collection, state) {
-  this.collection = collection;
-  this.state = state;
+var CollectionController = function(collection) {
   Controller.call(this);
+  this.collection = collection;
 };
 
 
 CollectionController.Prototype = function() {
+
+  var __super__ = Controller.prototype;
+
+  this.initialize = function() {
+    this.createView();
+    this.state = "initialized";
+  };
+
+  this.dispose = function() {
+    __super__.dispose.call(this);
+    this.view.dispose();
+  };
 
   this.createView = function() {
     var view = new CollectionView(this);
     return view;
   };
 
-  this.getActiveControllers = function() {
-    return [];
-  };
 };
-
 
 // Exports
 // --------
