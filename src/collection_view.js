@@ -63,14 +63,26 @@ CollectionView.Prototype = function() {
       ]
     }));
 
-
     // Collection records
     // ----------
 
     var recordsEl = $$('.records');
 
+    // Experimental: entry to create a new document
+    if (this.collectionCtrl.collection.properties.features &&
+        this.collectionCtrl.collection.properties.features.indexOf("new") >= 0) {
+      var newDoc = $$('a.title', {
+        href: "#"+collection.id+"/new",
+        text: "Create Document"
+      });
+
+      recordsEl.appendChild($$('.record', {
+        children: [newDoc]
+      }));
+    }
+
     // Sort by published_on date
-    records = _.sortBy(records, function(record){ 
+    records = _.sortBy(records, function(record){
       return record.published_on;
     });
 
@@ -95,13 +107,13 @@ CollectionView.Prototype = function() {
 
       children.push($$('a.title', {
         href: "#"+collection.id+"/"+record.id,
-        text: record.title 
+        text: record.title
       }));
 
       // Authors
       // ----------
 
-      children.push($$('.authors', { 
+      children.push($$('.authors', {
         html: record.authors.join(', ')
       }));
 
