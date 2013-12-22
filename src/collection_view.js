@@ -69,8 +69,7 @@ CollectionView.Prototype = function() {
     var recordsEl = $$('.records');
 
     // Experimental: entry to create a new document
-    if (this.collectionCtrl.collection.properties.features &&
-        this.collectionCtrl.collection.properties.features.indexOf("new") >= 0) {
+    if (true) {
       var newDoc = $$('a.title', {
         href: "#"+collection.id+"/new",
         text: "Create Document"
