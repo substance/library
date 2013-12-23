@@ -14,7 +14,6 @@ var $$ = require("substance-application").$$;
 
 var CollectionView = function(collectionCtrl) {
   View.call(this);
-
   this.$el.addClass('collection-view');
   this.collectionCtrl = collectionCtrl;
 };
@@ -33,7 +32,7 @@ CollectionView.Prototype = function() {
 
     // Render the collection
     var collection = this.collectionCtrl.collection;
-    var records = collection.records;
+    var records = collection.getRecords();
 
     // Collection metadata
     // ----------
@@ -69,7 +68,7 @@ CollectionView.Prototype = function() {
     var recordsEl = $$('.records');
 
     // Experimental: entry to create a new document
-    if (true) {
+    if (collection.isEditable) {
       var newDoc = $$('a.title', {
         href: "#"+collection.id+"/new",
         text: "Create Document"

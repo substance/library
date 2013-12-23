@@ -27,7 +27,8 @@ var SCHEMA = {
         "description": "string",
         "updated_at": "date",
         "image": "string",
-        "records": ["array", "record"]
+        "records": ["array", "record"],
+        "isEditable": "bool"
       }
     },
 
