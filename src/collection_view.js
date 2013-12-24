@@ -73,7 +73,6 @@ CollectionView.Prototype = function() {
         href: "#"+collection.id+"/new",
         text: "Create Document"
       });
-
       recordsEl.appendChild($$('.record', {
         children: [newDoc]
       }));
@@ -88,14 +87,15 @@ CollectionView.Prototype = function() {
     records.reverse();
 
     _.each(records, function(record) {
-      var children = [];
       var dateStr;
 
       // Publish date (if available)
       // ----------
+      var recordEl = $$('.record');
+      var content = $$('.content');
 
       if (record.published_on) {
-        children.push($$('.date', {
+        content.appendChild($$('.date', {
           text: new Date(record.published_on).toDateString()
         }));
       }
@@ -103,7 +103,7 @@ CollectionView.Prototype = function() {
       // Title
       // ----------
 
-      children.push($$('a.title', {
+      content.appendChild($$('a.title', {
         href: "#"+collection.id+"/"+record.id,
         text: record.title
       }));
@@ -111,14 +111,21 @@ CollectionView.Prototype = function() {
       // Authors
       // ----------
 
-      children.push($$('.authors', {
+      content.appendChild($$('.authors', {
         html: record.authors.join(', ')
       }));
 
-      recordsEl.appendChild($$('.record', {
-        children: children
-      }));
+      recordEl.appendChild(content);
 
+      if (collection.isEditable) {
+        var controls = $$('.controls');
+        controls.appendChild($$('i.delete.icon-trash', {
+          title: "Delete Document"
+        }));
+        recordEl.appendChild(controls);
+      }
+
+      recordsEl.appendChild(recordEl);
     }, this);
 
     this.el.appendChild(recordsEl);
