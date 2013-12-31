@@ -16,7 +16,7 @@ CollectionController.Prototype = function() {
   var __super__ = Controller.prototype;
 
   this.initialize = function(newState, cb) {
-    this.createView();
+    this.createView().render();
     cb(null);
   };
 
