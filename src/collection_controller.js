@@ -40,15 +40,34 @@ CollectionController.Prototype = function() {
   };
 
   this.importDocument = function(doc) {
+    var self = this;
     if (this.options["import"]) {
       this.options["import"](this.collection.id, doc, function(error) {
         if(error) {
           console.error(error.message);
           util.printStackTrace(error, error);
+        } else {
+          self.view.render();
         }
       });
     } else {
       console.error("Import not supported.");
+    }
+  };
+
+  this.deleteDocument = function(docId) {
+    var self = this;
+    if (this.options["delete"]) {
+      this.options["delete"](this.collection.id, docId, function(error) {
+        if(error) {
+          console.error(error.message);
+          util.printStackTrace(error, error);
+        } else {
+          self.view.render();
+        }
+      });
+    } else {
+      console.error("Delete not supported.");
     }
   };
 

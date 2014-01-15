@@ -5,6 +5,8 @@ var util = require("substance-util");
 var Data = require("substance-data");
 var Collection = require("./collection");
 var Chronicle = require("substance-chronicle");
+var Operator = require("substance-operator");
+var ArrayOperation = Operator.ArrayOperation;
 
 // Library Schema
 // --------
@@ -82,24 +84,29 @@ Library.Prototype = function() {
     return new Collection(collection, this);
   };
 
-  // Get Document by id
-  // --------
-  //
-  // It reads the corresponding document record and tries to fetch the article from the URL provided
+  this.removeDocument = function(collectionId, docId) {
+    var library = this.get("library");
+    var collectionIds = library.collections;
 
-  this.loadDocument = function(docId, cb) {
+    var collection = this.get(collectionId);
+    var index = collection.records.indexOf(docId);
 
-    var record = this.get(docId);
-    var doc;
-    console.log('LOADING DOC from: ', record.url);
-    // check schema
-    $.getJSON(record.url, function(data) {
+    if (index < 0) {
+      throw new Error("Document " + docId + " not in collection "+collectionId);
+    }
 
-      var Article = require("substance-article");
-      doc = Article.fromSnapshot(data);
+    // count the occurrences of the docId
+    var count = 0;
+    _.each(collectionIds, function(collectionId) {
+      var collection = this.get(collectionId);
+      if (collection.records.indexOf(docId) >= 0) count++;
+    }, this);
 
-      cb(null, doc);
-    });
+    this.update([collectionId, "records"], ArrayOperation.Delete(index, docId));
+
+    if (count === 1) {
+      this.delete(docId);
+    }
   };
 };
 

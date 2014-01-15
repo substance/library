@@ -1,8 +1,6 @@
 "use strict";
 
 var _ = require("underscore");
-var util = require('substance-util');
-var html = util.html;
 var View = require("substance-application").View;
 var $$ = require("substance-application").$$;
 
@@ -29,6 +27,7 @@ CollectionView.Prototype = function() {
   //     .authors
 
   this.render = function() {
+    this.el.innerHTML = "";
 
     // Render the collection
     var collection = this.collectionCtrl.collection;
@@ -86,8 +85,8 @@ CollectionView.Prototype = function() {
     // Flip the array
     records.reverse();
 
+    var self = this;
     _.each(records, function(record) {
-      var dateStr;
 
       // Publish date (if available)
       // ----------
@@ -119,9 +118,13 @@ CollectionView.Prototype = function() {
 
       if (collection.isEditable) {
         var controls = $$('.controls');
-        controls.appendChild($$('i.delete.icon-trash', {
+        var deleteEl = $$('i.delete.icon-trash', {
           title: "Delete Document"
-        }));
+        });
+        deleteEl.onclick = function(e) {
+          self.collectionCtrl.deleteDocument(record.id);
+        };
+        controls.appendChild(deleteEl);
         recordEl.appendChild(controls);
       }
 
