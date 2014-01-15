@@ -22,7 +22,7 @@
 }
 
 .library-view .library-info .title {
-  font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
+  font-weight: 600;
   font-size: 30px;
   padding: 20px 0;
 }
@@ -76,7 +76,7 @@
 }
 
 .library-view .collection .name {
-  font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
+  font-weight: 600;
   font-size: 26px;
 }
 
@@ -134,8 +134,12 @@
 }
 
 .collection-view .collection .path {
-  font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
+  font-weight: 600;
   font-size: 26px;
+}
+
+.collection-view .collection .path a {
+  font-weight: 600;
 }
 
 .collection-view .collection .sep {
@@ -165,7 +169,7 @@
 }
 
 .collection-view .record a.title {
-  font-family: 'Avenir LT W01 85 Heavy', 'Montserrat', 'Source Sans Pro';
+  font-weight: 600;
   font-size: 22px;
   line-height: 30px;
 }
